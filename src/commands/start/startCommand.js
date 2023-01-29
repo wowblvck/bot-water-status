@@ -6,7 +6,7 @@ module.exports = {
     const chatId = msg.chat.id;
     await bot.sendSticker(
       chatId,
-      "https://tlgrm.ru/_/stickers/a03/378/a03378c3-122f-314c-9f3f-c03ec9f00561/1.jpg",
+      "https://tlgrm.ru/_/stickers/a03/378/a03378c3-122f-314c-9f3f-c03ec9f00561/1.webp",
     )
     await bot.sendMessage(
       chatId, 
