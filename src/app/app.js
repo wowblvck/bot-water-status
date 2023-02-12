@@ -5,7 +5,7 @@ const { commandsDescription } = require("../config/commandsList");
 const commandToRegex = require("../utils/utils");
 const commands = require("../commands/commands");
 
-const TOKEN = process.env.TELEGRAM_TOKEN || "5529389626:AAEYP0tADLz2BPEhhcSIyXE1Iu72nw4U7to";
+const TOKEN = process.env.TELEGRAM_TOKEN || "5529389626:AAHkl8hj92oCOuHTwNCpa6f880bdqa02QOA";
 
 //Create Singleton class
 class App {
@@ -13,18 +13,18 @@ class App {
   constructor() {
     if (!App.instance) {
       this.bot = new TelegramApi(TOKEN, BotOptions);
-      this.init();
       App.instance = this;
+      this.init();
     }
     return App.instance;
   }
 
-  init = () => {
+  init = async () => {
     this.bot.setMyCommands(commandsDescription);
-    this.loadCommands();
+    await this.loadCommands();
   }
 
-  loadCommands = () => {
+  loadCommands = async () => {
     commands.forEach((command) => {
       this.bot.onText(commandToRegex(command.command), async (msg) => {
         command.handler(msg, this.bot);
