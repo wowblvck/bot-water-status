@@ -6,6 +6,12 @@ module.exports = {
   command: commandsList.waterOff,
   handler: async (msg, bot) => {
     const chatId = msg.chat.id;
+    if (!store.Status) {
+      return await bot.sendMessage(
+        chatId,
+        `💦 выключалась в ${store.LastTime}`
+      )
+    }
     const from = msg.from || {};
     const username = from.username ? `@${from.username}` : "";
     const firstName = from.first_name ? from.first_name : "";
@@ -14,7 +20,7 @@ module.exports = {
     const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
     await bot.sendMessage(
       chatId,
-      `${fullName} ${username ? `(${username}) ` : ""}<i><b>включил(а)</b></i> 💦 в ${time}`,
+      `${fullName} ${username ? `(${username}) ` : ""}<i><b>выключил(а)</b></i> 💦 в ${time}`,
       {
         parse_mode: "HTML",
       }
@@ -26,5 +32,7 @@ module.exports = {
       status: false,
       time: time
     };
+    store.Status = false;
+    store.LastTime = time;
   }
 }

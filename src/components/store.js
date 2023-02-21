@@ -1,5 +1,7 @@
 const DEFAULT_STATE = {
   history: [],
+  status: false,
+  lastTime: ""
 }
 
 class Store {
@@ -23,6 +25,22 @@ class Store {
   set History(object) {
     this.state.history.push(object);
   }
+
+  get Status() {
+    return this.state.status;
+  }
+
+  set Status(value) {
+    this.state.status = value;
+  }
+
+  get LastTime() {
+    return this.state.lastTime;
+  }
+
+  set LastTime(time) {
+    this.state.lastTime = time;
+  } 
 }
 
 const store = new Store();

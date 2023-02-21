@@ -22,6 +22,7 @@ class App {
   init = async () => {
     this.bot.setMyCommands(commandsDescription);
     await this.loadCommands();
+    await this.loadCallbacks();
   }
 
   loadCommands = async () => {
@@ -48,6 +49,31 @@ class App {
             parse_mode: "HTML"
           }
         );
+      }
+    });
+  }
+
+  loadCallbacks = async () => {
+    this.bot.on("callback_query", async (query) => {
+      const chatId = query.message.chat.id;
+      const data = query.data;
+      
+      if (data === "nowateroff") {
+        const from = query.from || {};
+        const username = from.username ? `@${from.username}` : "";
+        const firstName = from.first_name ? from.first_name : "";
+        const lastName = from.last_name ? from.last_name : "";
+        const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
+        await this.bot.sendMessage(
+          chatId,
+          `${fullName} ${username ? `(${username}) ` : ""}попросил(а) <i><b>не выключать</b></i> 💦`,
+          {
+            parse_mode: "HTML"
+          }
+        );
+        await this.bot.answerCallbackQuery(query.id, {
+          text: `Выполнено`,
+        });
       }
     });
   }
