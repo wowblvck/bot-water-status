@@ -6,13 +6,15 @@ module.exports = {
   command: commandsList.waterOff,
   handler: async (msg, bot) => {
     const chatId = msg.chat.id;
-    const username = msg.from.username;
-    const firstName = msg.from.first_name;
-    const lastName = msg.from.last_name;
+    const from = msg.from || {};
+    const username = from.username ? `@${from.username}` : "";
+    const firstName = from.first_name ? from.first_name : "";
+    const lastName = from.last_name ? from.last_name : "";
     const time = moment(msg.date * 1000).tz("Europe/Moscow").locale("ru").format('LT (LL)');
+    const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
     await bot.sendMessage(
       chatId,
-       `${firstName} ${lastName} (@${username}) <i><b>выключил(а)</b></i> 💦 в ${time}`,
+      `${fullName} ${username ? `(${username}) ` : ""}<i><b>включил(а)</b></i> 💦 в ${time}`,
       {
         parse_mode: "HTML",
       }

@@ -13,7 +13,9 @@ module.exports = {
       lastOne = store.History[store.History.length - 1];
       lastFive = store.History.slice(-5);
       lastFive.forEach((el, i) => {
-        history += `${i + 1}. ${el.firstName} ${el.lastName} (@${el.username}) ${el.status === true ? "включал(а)" : "выключал(а)"} 💦 в ${el.time}\n`;
+        const { firstName, lastName, username } = el;
+        const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
+        history += `${i + 1}. ${fullName} ${username ? `(${username}) ` : ""}${el.status === true ? "включал(а)" : "выключал(а)"} 💦 в ${el.time}\n`;
       });
       if (lastOne.status) {
         historyOne = "Сейчас вода - <b>включена</b>";
