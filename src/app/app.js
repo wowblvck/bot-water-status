@@ -5,11 +5,9 @@ const { commandsDescription } = require("../config/commandsList");
 const commandToRegex = require("../utils/utils");
 const commands = require("../commands/commands");
 
-const TOKEN = process.env.TELEGRAM_TOKEN || "5529389626:AAHkl8hj92oCOuHTwNCpa6f880bdqa02QOA";
+const TOKEN = process.env.TELEGRAM_TOKEN;
 
-//Create Singleton class
 class App {
-  //Initialize Telegram Bot API
   constructor() {
     if (!App.instance) {
       this.bot = new TelegramApi(TOKEN, BotOptions);
@@ -23,7 +21,7 @@ class App {
     this.bot.setMyCommands(commandsDescription);
     await this.loadCommands();
     await this.loadCallbacks();
-  }
+  };
 
   loadCommands = async () => {
     commands.forEach((command) => {
@@ -31,7 +29,6 @@ class App {
         command.handler(msg, this.bot);
       });
     });
-    //Check if command not found
     this.bot.on("message", async (msg) => {
       const text = msg.text;
       const chatId = msg.chat.id;
@@ -40,35 +37,40 @@ class App {
         if (commandToRegex(command.command).test(text)) {
           commandFound = true;
         }
-      })
+      });
       if (!commandFound) {
         await this.bot.sendMessage(
           chatId,
           `Команда <b>${msg.text}</b> не найдена!`,
           {
-            parse_mode: "HTML"
+            parse_mode: "HTML",
           }
         );
       }
     });
-  }
+  };
 
   loadCallbacks = async () => {
     this.bot.on("callback_query", async (query) => {
       const chatId = query.message.chat.id;
       const data = query.data;
-      
+
       if (data === "nowateroff") {
         const from = query.from || {};
         const username = from.username ? `@${from.username}` : "";
         const firstName = from.first_name ? from.first_name : "";
         const lastName = from.last_name ? from.last_name : "";
-        const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
+        const fullName =
+          firstName && lastName
+            ? `${firstName} ${lastName}`
+            : firstName || lastName;
         await this.bot.sendMessage(
           chatId,
-          `${fullName} ${username ? `(${username}) ` : ""}попросил(а) <i><b>не выключать</b></i> 💦`,
+          `${fullName} ${
+            username ? `(${username}) ` : ""
+          }попросил(а) <i><b>не выключать</b></i> 💦`,
           {
-            parse_mode: "HTML"
+            parse_mode: "HTML",
           }
         );
         await this.bot.answerCallbackQuery(query.id, {
@@ -76,7 +78,7 @@ class App {
         });
       }
     });
-  }
+  };
 }
 
 module.exports = App;

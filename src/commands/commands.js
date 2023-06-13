@@ -3,9 +3,4 @@ const waterOn = require("./waterOn/waterOn");
 const waterOff = require("./waterOff/waterOff");
 const waterStat = require("./waterStat/waterStat");
 
-module.exports = [
-  startCommand,
-  waterOn,
-  waterOff,
-  waterStat
-]
+module.exports = [startCommand, waterOn, waterOff, waterStat];

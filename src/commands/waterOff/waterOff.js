@@ -1,6 +1,6 @@
 const { commandsList } = require("../../config/commandsList");
 const moment = require("moment-timezone");
-const store = require("../../components/store"); 
+const store = require("../../components/store");
 
 module.exports = {
   command: commandsList.waterOff,
@@ -10,17 +10,25 @@ module.exports = {
       return await bot.sendMessage(
         chatId,
         `💦 выключалась в ${store.LastTime}`
-      )
+      );
     }
     const from = msg.from || {};
     const username = from.username ? `@${from.username}` : "";
     const firstName = from.first_name ? from.first_name : "";
     const lastName = from.last_name ? from.last_name : "";
-    const time = moment(msg.date * 1000).tz("Europe/Moscow").locale("ru").format('LT (LL)');
-    const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
+    const time = moment(msg.date * 1000)
+      .tz("Europe/Moscow")
+      .locale("ru")
+      .format("LT (LL)");
+    const fullName =
+      firstName && lastName
+        ? `${firstName} ${lastName}`
+        : firstName || lastName;
     await bot.sendMessage(
       chatId,
-      `${fullName} ${username ? `(${username}) ` : ""}<i><b>выключил(а)</b></i> 💦 в ${time}`,
+      `${fullName} ${
+        username ? `(${username}) ` : ""
+      }<i><b>выключил(а)</b></i> 💦 в ${time}`,
       {
         parse_mode: "HTML",
       }
@@ -30,9 +38,9 @@ module.exports = {
       lastName: lastName,
       username: username,
       status: false,
-      time: time
+      time: time,
     };
     store.Status = false;
     store.LastTime = time;
-  }
-}
+  },
+};

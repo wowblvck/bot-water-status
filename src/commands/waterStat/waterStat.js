@@ -14,8 +14,13 @@ module.exports = {
       lastFive = store.History.slice(-5);
       lastFive.forEach((el, i) => {
         const { firstName, lastName, username } = el;
-        const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName;
-        history += `${i + 1}. ${fullName} ${username ? `(${username}) ` : ""}${el.status === true ? "включал(а)" : "выключал(а)"} 💦 в ${el.time}\n`;
+        const fullName =
+          firstName && lastName
+            ? `${firstName} ${lastName}`
+            : firstName || lastName;
+        history += `${i + 1}. ${fullName} ${username ? `(${username}) ` : ""}${
+          el.status === true ? "включал(а)" : "выключал(а)"
+        } 💦 в ${el.time}\n`;
       });
       if (lastOne.status) {
         historyOne = "Сейчас вода - <b>включена</b>";
@@ -23,16 +28,18 @@ module.exports = {
         historyOne = "Сейчас вода - <b>выключена</b>";
       }
     } else {
-      history = "История изменения статуса воды <b>отсутствует</b>"
+      history = "История изменения статуса воды <b>отсутствует</b>";
     }
 
     await bot.sendMessage(
       chatId,
       `
-      ${historyOne.length ? historyOne : ""}\n\n<b>История (5) последних изменений статуса воды:</b>\n\n${history}`,
+      ${
+        historyOne.length ? historyOne : ""
+      }\n\n<b>История (5) последних изменений статуса воды:</b>\n\n${history}`,
       {
         parse_mode: "HTML",
       }
     );
-  }
-}
+  },
+};

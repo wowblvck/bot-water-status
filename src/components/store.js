@@ -1,13 +1,13 @@
 const DEFAULT_STATE = {
   history: [],
   status: false,
-  lastTime: ""
-}
+  lastTime: "",
+};
 
 class Store {
   static isExits = false;
   static instance;
-  
+
   state = DEFAULT_STATE;
 
   constructor() {
@@ -40,7 +40,7 @@ class Store {
 
   set LastTime(time) {
     this.state.lastTime = time;
-  } 
+  }
 }
 
 const store = new Store();

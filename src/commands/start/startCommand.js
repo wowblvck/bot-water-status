@@ -5,6 +5,5 @@ module.exports = {
   command: commandsList.start,
   handler: async (msg, bot) => {
     start(msg, bot);
-  }
-}
-
+  },
+};
